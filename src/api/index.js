@@ -15,6 +15,8 @@ const AllApi = () => {
     getPost: (params) =>
       axios.get(`${API_URL}/posts/`, { ...config(), params }),
     getPostDetail: (id) => axios.get(`${API_URL}/posts/${id}`, config()),
+    getPostComments: (id) =>
+      axios.get(`${API_URL}/posts/${id}/comments`, config()),
     createPost: (data) => axios.post(`${API_URL}/posts`, data),
     getAlbum: (params) =>
       axios.get(`${API_URL}/albums`, { ...config(), params }),

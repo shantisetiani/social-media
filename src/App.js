@@ -8,6 +8,7 @@ import { MENU } from "./config";
 
 const People = lazy(() => import("./pages/People"));
 const Profile = lazy(() => import("./pages/Profile"));
+const PostDetail = lazy(() => import("./pages/post/PostDetail"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
               path={`${MENU.PEOPLE}/:id/profile`}
               component={Profile}
             />
+            <Route exact path={`${MENU.POST}/:id`} component={PostDetail} />
             <Route component={NotFound} />
           </Switch>
         </Suspense>
