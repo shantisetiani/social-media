@@ -6,8 +6,15 @@ import useApiCall from "../customHooks/useApiCall";
 import { Break } from "../component";
 import BlankProfilePicture from "../assets/images/blank-profile-picture.png";
 
+import Post from "./post";
+import Album from "./album";
+
 function Profile() {
   const [userDetail, setUserDetail] = useState({});
+  const [posts, setPosts] = useState([]);
+  const [albums, setAlbums] = useState([]);
+  const [currentTab, setCurrentTab] = useState("1");
+
   const splittedUrl = window.location.pathname.split("/");
   const userId = splittedUrl[splittedUrl.length - 2];
 
@@ -15,12 +22,36 @@ function Profile() {
     ApiCall: Api.getUser,
     params: { id: userId },
   });
+  const postResult = useApiCall({
+    ApiCall: Api.getPost,
+    params: { userId: userId },
+  });
+  const albumResult = useApiCall({
+    ApiCall: Api.getAlbum,
+    params: { userId: userId },
+  });
 
+  /* Put Data into local state - START */
   useEffect(() => {
     if (userResult.response !== null) {
       setUserDetail(userResult.response[0]);
     }
   }, [userResult.response]);
+
+  useEffect(() => {
+    if (postResult.response !== null) {
+      setPosts(postResult.response);
+    }
+  }, [postResult.response]);
+
+  useEffect(() => {
+    if (albumResult.response !== null) {
+      setAlbums(albumResult.response);
+    }
+  }, [albumResult.response]);
+  /* Put Data into local state - END */
+
+  const handleSelectTab = (eventKey) => setCurrentTab(eventKey);
 
   return (
     <Container className="container-pages">
@@ -57,16 +88,23 @@ function Profile() {
           </Row>
         </Col>
       </Row>
-      <Break height="20px" />
+      <Break height={20} />
       <div>
-        <Nav justify variant="tabs" defaultActiveKey="tab-posts">
+        <Nav
+          justify
+          variant="tabs"
+          defaultActiveKey="1"
+          onSelect={handleSelectTab}
+        >
           <Nav.Item>
-            <Nav.Link eventKey="tab-posts">Posts</Nav.Link>
+            <Nav.Link eventKey="1">Posts</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link eventKey="tab-albums">Albums</Nav.Link>
+            <Nav.Link eventKey="2">Albums</Nav.Link>
           </Nav.Item>
         </Nav>
+        <Break height={10} />
+        {currentTab === "1" ? <Post data={posts} /> : <Album data={albums} />}
       </div>
     </Container>
   );
