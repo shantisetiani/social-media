@@ -1,3 +1,22 @@
 h3 {
   padding: 20px 0;
 }
+
+.container-pages {
+  position: relative;
+  padding-top: 20px;
+  padding-bottom: 40px;
+}
+
+/* Modify bootstrap */
+.alert {
+  position: absolute !important;
+  width: 100%;
+  z-index: 9;
+  top: 3px;
+  left: 0;
+}
+
+.card {
+  margin-bottom: 20px;
+}

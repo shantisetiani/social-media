@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 import { Api } from "../api";
 import useApiCall from "../customHooks/useApiCall";
 import { storeUsers, storePosts } from "../redux";
+import { MENU } from "../config";
 
+import { Loader } from "../component";
 import BlankProfilePicture from "../assets/images/blank-profile-picture.png";
 
 function Home() {
@@ -42,6 +44,19 @@ function Home() {
       setPosts(selectedPosts);
     }
   }, [postResult.response]);
+
+  //Handle error call Api
+  useEffect(() => {
+    if (userResult.error || postResult.error) {
+      setAlertProps({
+        props: { show: true, variant: "danger" },
+        content: "Error occured. Please try again later.",
+      });
+      setTimeout(() => {
+        dismissAlert();
+      }, 3000);
+    }
+  }, [userResult.error, postResult.error]);
 
   /* useEffect(() => {
     Api.getAllUser()
@@ -82,48 +97,58 @@ function Home() {
   };
 
   return (
-    <Container>
-      <Alert {...alertProps.props}>{alertProps.content}</Alert>
-      <Row>
-        <Col>
-          <h3>Popular Posts</h3>
-        </Col>
-      </Row>
-      <Row>
-        {posts?.map((item, idx) => (
-          <Col xs="6" lg="3" key={idx}>
-            <Card>
-              <Card.Body>
-                <Card.Title>{item.title}</Card.Title>
-                <Card.Text>{item.body}</Card.Text>
-                <Card.Subtitle>{getUser(item.userId)?.name}</Card.Subtitle>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-      <Row>
-        <Col>
-          <h3>Suggestions</h3>
-        </Col>
-      </Row>
-      <Row>
-        {users?.map((item, idx) => (
-          <Col xs="6" lg="3" key={idx}>
-            <Card>
-              <Card.Img variant="top" src={BlankProfilePicture} />
-              <Card.Body>
-                <Card.Title>{item.name}</Card.Title>
-                <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </Card.Text>
-                <Link to="">{"See Profile >>"}</Link>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+    <Container className="container-pages">
+      {userResult.loading ? (
+        <Loader />
+      ) : (
+        <>
+          <Alert {...alertProps.props}>{alertProps.content}</Alert>
+          <Row>
+            <Col>
+              <h3>Popular Posts</h3>
+            </Col>
+          </Row>
+          <Row>
+            {posts?.map((item, idx) => (
+              <Col xs="6" lg="3" key={idx}>
+                <Card>
+                  <Card.Body>
+                    <Card.Title>{item.title}</Card.Title>
+                    <Card.Text>{item.body}</Card.Text>
+                    <Card.Subtitle>{getUser(item.userId)?.name}</Card.Subtitle>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+          <Row>
+            <Col>
+              <h3>Suggestions</h3>
+            </Col>
+          </Row>
+          <Row>
+            {users?.map((item, idx) => (
+              <Col xs="6" lg="3" key={idx}>
+                <Card>
+                  <Card.Img variant="top" src={BlankProfilePicture} />
+                  <Card.Body>
+                    <Card.Title>{item.name}</Card.Title>
+                    <Card.Text>
+                      <div>Phone: {item.phone}</div>
+                      <div>Email: {item.email}</div>
+                    </Card.Text>
+                  </Card.Body>
+                  <Card.Footer>
+                    <Link to={`people/${item.id}/profile`}>
+                      {"See Profile >>"}
+                    </Link>
+                  </Card.Footer>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </>
+      )}
     </Container>
   );
 }

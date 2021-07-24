@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const useApiCall = ({ ApiCall, store, storageName }) => {
+const useApiCall = ({ ApiCall, params, store, storageName }) => {
   const [response, setResponse] = useState(null);
   const [error, setError] = useState("");
   const [loading, setloading] = useState(true);
@@ -10,10 +10,12 @@ const useApiCall = ({ ApiCall, store, storageName }) => {
   const storage = useSelector((state) => state[storageName]);
 
   const getData = () => {
+    console.log(storage);
     if (storage) {
       setResponse(storage);
+      setloading(false);
     } else {
-      ApiCall()
+      ApiCall(params)
         .then((response) => {
           if (store) dispatch(store(response.data));
           setResponse(response.data);
