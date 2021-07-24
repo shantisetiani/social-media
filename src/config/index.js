@@ -2,6 +2,6 @@ export const SITE_URL = process.env.PUBLIC_URL;
 export var API_URL = process.env.REACT_APP_API_URL;
 
 export const MENU = {
-  HOME: `${SITE_URL}`,
-  USER: `${SITE_URL}/users`,
+  HOME: `${SITE_URL}/`,
+  PEOPLE: `${SITE_URL}/people`,
 };

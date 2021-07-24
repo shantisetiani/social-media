@@ -10,6 +10,7 @@ const AllApi = () => {
 
   return {
     getAllUser: () => axios.get(`${API_URL}/users`, config()),
+    getUser: (params) => axios.get(`${API_URL}/users`, { ...config(), params }),
     getAllPost: () => axios.get(`${API_URL}/posts`, config()),
     getPost: (params) =>
       axios.get(`${API_URL}/posts/`, { ...config(), params }),
