@@ -5,4 +5,5 @@ export const MENU = {
   HOME: `${SITE_URL}/`,
   PEOPLE: `${SITE_URL}/people`,
   POST: `${SITE_URL}/post`,
+  ALBUM: `${SITE_URL}/album`,
 };

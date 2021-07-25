@@ -1,12 +1,20 @@
 import React from "react";
+import { useHistory } from "react-router";
 import { Row, Col, Card } from "react-bootstrap";
 
+import "./style.css";
+
 function Album(props) {
+  const history = useHistory();
+
   return (
     <Row>
       {props.data?.map((item, idx) => (
-        <Col xs="6" md="4" lg="3" key={idx}>
-          <Card style={{ height: "250px" }}>
+        <Col xs="6" sm="4" lg="3" key={idx}>
+          <Card
+            className="card-albums"
+            onClick={() => history.push(`/album/${item.id}`)}
+          >
             <Card.Body
               style={{
                 display: "flex",

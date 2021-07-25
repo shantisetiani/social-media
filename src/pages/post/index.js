@@ -63,13 +63,11 @@ function Post(props) {
         </Card>
       </Col>
       {props.data?.map((item, idx) => (
-        <Col
-          xs="12"
-          lg="6"
-          key={idx}
-          onClick={() => history.push(`/post/${item.id}`)}
-        >
-          <Card className="card-post">
+        <Col xs="12" lg="6" key={idx}>
+          <Card
+            className="card-post"
+            onClick={() => history.push(`/post/${item.id}`)}
+          >
             <Card.Body>
               <Card.Title>{item.title}</Card.Title>
               <Card.Text>{item.body}</Card.Text>

@@ -22,6 +22,9 @@ const AllApi = () => {
       axios.post(`${API_URL}/posts/${id}/comments`, data),
     getAlbum: (params) =>
       axios.get(`${API_URL}/albums`, { ...config(), params }),
+    getAlbumDetail: (id) => axios.get(`${API_URL}/albums/${id}`, config()),
+    getPhotosByAlbum: (id) =>
+      axios.get(`${API_URL}/albums/${id}/photos`, config()),
   };
 };
 
