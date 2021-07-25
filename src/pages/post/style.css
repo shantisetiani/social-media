@@ -23,3 +23,12 @@
 .comment-bubble textarea:focus {
   outline: none;
 }
+
+.post-detail input,
+.post-detail textarea {
+  width: 100%;
+}
+.post-detail textarea {
+  resize: none;
+  height: 8rem;
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, createRef, useContext } from "react";
+import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
-import { Container, Row, Col, Button, Alert } from "react-bootstrap";
+import { Container, Row, Col, Button, Alert, Modal } from "react-bootstrap";
 import { Api } from "../../api";
 import useApiCall from "../../customHooks/useApiCall";
 import { storeUsers, addPost } from "../../redux";
@@ -14,9 +15,15 @@ function PostDetail() {
   const [comments, setComments] = useState([]);
   const [users, setUsers] = useState({});
   const [alertProps, setAlertProps] = useState({});
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [postTitle, setPostTitle] = useState("");
+  const [postBody, setPostBody] = useState("");
+  const [showModal, setShowModal] = useState(false);
+
   const inputCommentRef = createRef();
   const loginContext = useContext(LoginContext);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const splittedUrl = window.location.pathname.split("/");
   const postId = splittedUrl[splittedUrl.length - 1];
@@ -116,23 +123,50 @@ function PostDetail() {
   };
 
   const editPost = () => {
+    setIsEditMode(true);
+    setPostTitle(postDetail.title);
+    setPostBody(postDetail.body);
+  };
+
+  const submitEdit = () => {
     const data = {
       id: postId,
-      title: "foo",
-      body: "bar",
-      userId: getUser(postDetail.userId),
+      title: postTitle,
+      body: postBody,
+      userId: getUser(postDetail.userId).id,
     };
     Api.updatePost(postId, data)
       .then((response) => {
-        if (response.status === 201) {
-          inputCommentRef.current.value = "";
+        if (response.status === 200) {
+          setAlertProps({
+            props: { variant: "success" },
+            content: "Success update post",
+          });
+          setTimeout(() => {
+            dismissAlert();
+          }, 3000);
+        }
+      })
+      .catch((err) => {
+        showError(err);
+      })
+      .finally(() => {
+        setIsEditMode(false);
+      });
+  };
+
+  const deletePost = () => {
+    closeModal();
+    Api.deletePost(postId)
+      .then((response) => {
+        if (response.status === 200) {
           setAlertProps({
             props: { show: true, variant: "success" },
             content: "Success delete post",
           });
           setTimeout(() => {
-            dismissAlert();
-          }, 3000);
+            history.goBack();
+          }, 2000);
         }
       })
       .catch((err) => {
@@ -140,50 +174,66 @@ function PostDetail() {
       });
   };
 
-  const deletePost = () => {
-    console.log("ASDSAD");
-    Api.deletePost(postId)
-      .then((response) => {
-        if (response.status === 201) {
-          inputCommentRef.current.value = "";
-          setAlertProps({
-            props: { show: true, variant: "success" },
-            content: "Success delete post",
-          });
-          setTimeout(() => {
-            dismissAlert();
-          }, 3000);
-        }
-      })
-      .catch((err) => {
-        showError(err);
-      });
-  };
+  const closeModal = () => setShowModal(false);
 
   return (
     <Container className="container-pages">
       {postResult.loading || commentResult.loading || userResult.loading ? (
         <Loader />
       ) : (
-        <Row>
-          <Alert {...alertProps.props}>{alertProps.content}</Alert>
-          <Col xs="9">
-            <h2>{postDetail.title}</h2>
+        <Row className="post-detail">
+          <Alert show={true} {...alertProps.props}>
+            {alertProps.content}
+          </Alert>
+          <Col>
+            {isEditMode ? (
+              <input
+                type="text"
+                placeholder="Title"
+                value={postTitle}
+                onChange={(e) => setPostTitle(e.target.value)}
+              />
+            ) : (
+              <h2>{postDetail.title}</h2>
+            )}
           </Col>
-          <Col xs="3" style={{ textAlign: "right" }}>
-            <Button variant="warning" size="sm" onClick={editPost}>
-              Edit
-            </Button>
-            <Button variant="danger" size="sm" onClick={deletePost}>
-              Delete
-            </Button>
-          </Col>
+          {!isEditMode && (
+            <Col xs="3" style={{ textAlign: "right" }}>
+              <Button variant="warning" size="sm" onClick={editPost}>
+                Edit
+              </Button>
+              <Button
+                variant="danger"
+                size="sm"
+                onClick={() => setShowModal(true)}
+              >
+                Delete
+              </Button>
+            </Col>
+          )}
           <Break height={20} />
-          <Text size={16}>{postDetail.body}</Text>
+          <Col>
+            {isEditMode ? (
+              <textarea
+                placeholder="Post Content"
+                value={postBody}
+                onChange={(e) => setPostBody(e.target.value)}
+              />
+            ) : (
+              <Text size={16}>{postDetail.body}</Text>
+            )}
+          </Col>
           <Break height={20} />
           <Text size={12} color="#333">
             By <b>{getUser(postDetail.userId)?.name}</b>
           </Text>
+          {isEditMode && (
+            <Col style={{ textAlign: "right" }}>
+              <Button variant="primary" size="sm" onClick={submitEdit}>
+                Submit Changes
+              </Button>
+            </Col>
+          )}
           <Break height={40} />
           <h5>Comments</h5>
           {comments?.map((item, idx) => (
@@ -219,6 +269,20 @@ function PostDetail() {
               </form>
             </div>
           )}
+          <Modal show={showModal} onHide={closeModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Delete Confirmation</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Do you want to delete this post?</Modal.Body>
+            <Modal.Footer>
+              <Button variant="light" onClick={closeModal}>
+                No
+              </Button>
+              <Button variant="danger" onClick={deletePost}>
+                Yes
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </Row>
       )}
     </Container>
