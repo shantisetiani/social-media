@@ -10,7 +10,6 @@ const useApiCall = ({ ApiCall, params, store, storageName }) => {
   const storage = useSelector((state) => state[storageName]);
 
   const getData = () => {
-    console.log(storage);
     if (storage) {
       setResponse(storage);
       setloading(false);

@@ -6,7 +6,7 @@ import useApiCall from "../customHooks/useApiCall";
 import { storeUsers, storePosts } from "../redux";
 import { MENU } from "../config";
 
-import { Text, Loader, Break } from "../component";
+import { Text, Loader, Break, CardPost } from "../component";
 import BlankProfilePicture from "../assets/images/blank-profile-picture.png";
 
 function Home() {
@@ -58,37 +58,6 @@ function Home() {
     }
   }, [userResult.error, postResult.error]);
 
-  /* useEffect(() => {
-    Api.getAllUser()
-      .then((response) => {
-        let selecteUsers = [];
-        for (let i = 0; i < 4; i++) {
-          selecteUsers.push(response.data[i]);
-        }
-        setUsers(selecteUsers);
-        setAlertProps({
-          props: { show: true, variant: "success" },
-          content: "Success.",
-        });
-        setTimeout(() => {
-          dismissAlert();
-        }, 3000);
-      })
-      .catch((err) => {
-        setAlertProps({
-          props: { show: true, variant: "danger" },
-          content: "Error occured. Please try again later.",
-        });
-        setTimeout(() => {
-          dismissAlert();
-        }, 3000);
-      });
-  }, []); */
-
-  const getUser = (userId) => {
-    return users.find((item) => (item.id = userId));
-  };
-
   const dismissAlert = () => {
     setAlertProps({
       props: { show: false, variant: "" },
@@ -108,24 +77,7 @@ function Home() {
               <h3>Popular Posts</h3>
             </Col>
           </Row>
-          <Row>
-            {posts?.map((item, idx) => (
-              <Col xs="12" lg="6" key={idx}>
-                <Card>
-                  <Card.Body>
-                    <Card.Title>{item.title}</Card.Title>
-                    <Card.Text>
-                      <Text size={14}>{item.body}</Text>
-                      <Break height={10} />
-                      <Text size={12} color="#333">
-                        By <b>{getUser(item.userId)?.name}</b>
-                      </Text>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
+          <CardPost data={posts} users={users} />
           <Row>
             <Col>
               <h3>Suggestions</h3>

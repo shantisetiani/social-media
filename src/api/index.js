@@ -18,6 +18,8 @@ const AllApi = () => {
     getPostComments: (id) =>
       axios.get(`${API_URL}/posts/${id}/comments`, config()),
     createPost: (data) => axios.post(`${API_URL}/posts`, data),
+    updatePost: (id, data) => axios.put(`${API_URL}/posts/${id}`, data),
+    deletePost: (id) => axios.delete(`${API_URL}/posts/${id}`, config()),
     createComment: (id, data) =>
       axios.post(`${API_URL}/posts/${id}/comments`, data),
     getAlbum: (params) =>

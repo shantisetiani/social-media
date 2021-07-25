@@ -23,6 +23,7 @@ function Header() {
           <Nav className="me-auto">
             <Nav.Link href={MENU.HOME}>Home</Nav.Link>
             <Nav.Link href={MENU.PEOPLE}>People</Nav.Link>
+            <Nav.Link href={MENU.POST}>Post</Nav.Link>
           </Nav>
           <Nav>
             {loginContext.isLogin ? (

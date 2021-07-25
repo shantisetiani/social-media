@@ -1,8 +1,9 @@
 import React, { useState, useEffect, createRef, useContext } from "react";
-import { Container, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { Container, Row, Col, Button, Alert } from "react-bootstrap";
 import { Api } from "../../api";
 import useApiCall from "../../customHooks/useApiCall";
-import { storeUsers } from "../../redux";
+import { storeUsers, addPost } from "../../redux";
 import { LoginContext } from "../../App";
 
 import { Text, Loader, Break } from "../../component";
@@ -12,8 +13,10 @@ function PostDetail() {
   const [postDetail, setPostDetail] = useState({});
   const [comments, setComments] = useState([]);
   const [users, setUsers] = useState({});
+  const [alertProps, setAlertProps] = useState({});
   const inputCommentRef = createRef();
   const loginContext = useContext(LoginContext);
+  const dispatch = useDispatch();
 
   const splittedUrl = window.location.pathname.split("/");
   const postId = splittedUrl[splittedUrl.length - 1];
@@ -31,25 +34,6 @@ function PostDetail() {
     store: storeUsers,
     storageName: "users",
   });
-
-  const submitForm = () => {
-    const data = {
-      name: loginContext.loginInfo.name,
-      email: loginContext.loginInfo.email,
-      body: inputCommentRef.current.value,
-      postId: postId,
-    };
-    Api.createComment(data)
-      .then((response) => {
-        if (response.status === 201) {
-          inputCommentRef.current.value = "";
-          alert("Success");
-        }
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  };
 
   /* Put Data into local state - START */
   useEffect(() => {
@@ -71,22 +55,134 @@ function PostDetail() {
   }, [userResult.response]);
   /* Put Data into local state - END */
 
+  //Handle error call Api
+  useEffect(() => {
+    if (postResult.error || commentResult.error || userResult.error) {
+      setAlertProps({
+        props: { show: true, variant: "danger" },
+        content: "Error occured. Please try again later.",
+      });
+      setTimeout(() => {
+        dismissAlert();
+      }, 3000);
+    }
+  }, [postResult.error, commentResult.error, userResult.error]);
+
   const getUser = (userId) => {
     return users.length > 0 && users.find((item) => (item.id = userId));
   };
 
+  const dismissAlert = () => {
+    setAlertProps({
+      props: { show: false, variant: "" },
+      content: "",
+    });
+  };
+
+  const showError = (error) => {
+    setAlertProps({
+      props: { show: true, variant: "danger" },
+      content: error,
+    });
+    setTimeout(() => {
+      dismissAlert();
+    }, 3000);
+  };
+
+  const submitForm = () => {
+    const data = {
+      name: loginContext.loginInfo.name,
+      email: loginContext.loginInfo.email,
+      body: inputCommentRef.current.value,
+      postId: postId,
+    };
+
+    Api.createComment(data)
+      .then((response) => {
+        if (response.status === 201) {
+          inputCommentRef.current.value = "";
+          setAlertProps({
+            props: { show: true, variant: "success" },
+            content: "Success create comment",
+          });
+          setTimeout(() => {
+            dismissAlert();
+          }, 3000);
+        }
+      })
+      .catch((err) => {
+        showError(err);
+      });
+  };
+
+  const editPost = () => {
+    const data = {
+      id: postId,
+      title: "foo",
+      body: "bar",
+      userId: getUser(postDetail.userId),
+    };
+    Api.updatePost(postId, data)
+      .then((response) => {
+        if (response.status === 201) {
+          inputCommentRef.current.value = "";
+          setAlertProps({
+            props: { show: true, variant: "success" },
+            content: "Success delete post",
+          });
+          setTimeout(() => {
+            dismissAlert();
+          }, 3000);
+        }
+      })
+      .catch((err) => {
+        showError(err);
+      });
+  };
+
+  const deletePost = () => {
+    console.log("ASDSAD");
+    Api.deletePost(postId)
+      .then((response) => {
+        if (response.status === 201) {
+          inputCommentRef.current.value = "";
+          setAlertProps({
+            props: { show: true, variant: "success" },
+            content: "Success delete post",
+          });
+          setTimeout(() => {
+            dismissAlert();
+          }, 3000);
+        }
+      })
+      .catch((err) => {
+        showError(err);
+      });
+  };
+
   return (
     <Container className="container-pages">
-      {postResult.loading ? (
+      {postResult.loading || commentResult.loading || userResult.loading ? (
         <Loader />
       ) : (
-        <>
-          <h2>{postDetail.title}</h2>
+        <Row>
+          <Alert {...alertProps.props}>{alertProps.content}</Alert>
+          <Col xs="9">
+            <h2>{postDetail.title}</h2>
+          </Col>
+          <Col xs="3" style={{ textAlign: "right" }}>
+            <Button variant="warning" size="sm" onClick={editPost}>
+              Edit
+            </Button>
+            <Button variant="danger" size="sm" onClick={deletePost}>
+              Delete
+            </Button>
+          </Col>
           <Break height={20} />
           <Text size={16}>{postDetail.body}</Text>
           <Break height={20} />
           <Text size={12} color="#333">
-            By <b>{getUser(postDetail.userId).name}</b>
+            By <b>{getUser(postDetail.userId)?.name}</b>
           </Text>
           <Break height={40} />
           <h5>Comments</h5>
@@ -123,7 +219,7 @@ function PostDetail() {
               </form>
             </div>
           )}
-        </>
+        </Row>
       )}
     </Container>
   );

@@ -1,4 +1,4 @@
 import { storeUsers } from "./user/action";
-import { storePosts } from "./post/action";
+import { storePosts, addPost } from "./post/action";
 
-export { storeUsers, storePosts };
+export { storeUsers, storePosts, addPost };

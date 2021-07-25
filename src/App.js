@@ -14,6 +14,7 @@ import { MENU } from "./config";
 
 const People = lazy(() => import("./pages/People"));
 const Profile = lazy(() => import("./pages/Profile"));
+const AllPost = lazy(() => import("./pages/AllPost"));
 const PostDetail = lazy(() => import("./pages/post/PostDetail"));
 const AlbumDetail = lazy(() => import("./pages/album/AlbumDetail"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -73,6 +74,7 @@ function App() {
               path={`${MENU.PEOPLE}/:id/profile`}
               component={Profile}
             />
+            <Route exact path={MENU.POST} component={AllPost} />
             <Route exact path={`${MENU.POST}/:id`} component={PostDetail} />
             <Route exact path={`${MENU.ALBUM}/:id`} component={AlbumDetail} />
             <Route component={NotFound} />
