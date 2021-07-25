@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Container, Row, Col, Nav, Card, Image, Alert } from "react-bootstrap";
-import { Api } from "../api";
+import { Container, Row, Col, Nav, Image, Alert } from "react-bootstrap";
+import { UserApi, PostApi, AlbumApi } from "../api";
 import useApiCall from "../customHooks/useApiCall";
 import { LoginContext } from "../App";
 
@@ -21,15 +21,15 @@ function Profile() {
   const userId = Number(splittedUrl[splittedUrl.length - 2]);
 
   const userResult = useApiCall({
-    ApiCall: Api.getUser,
+    ApiCall: UserApi.getUser,
     params: { id: userId },
   });
   const postResult = useApiCall({
-    ApiCall: Api.getPost,
+    ApiCall: PostApi.getPost,
     params: { userId: userId },
   });
   const albumResult = useApiCall({
-    ApiCall: Api.getAlbum,
+    ApiCall: AlbumApi.getAlbum,
     params: { userId: userId },
   });
 

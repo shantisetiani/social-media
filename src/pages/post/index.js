@@ -1,7 +1,7 @@
-import React, { createRef, useContext } from "react";
+import React, { useContext } from "react";
 import { useDispatch } from "react-redux";
-import { Row, Col, Card, Button } from "react-bootstrap";
-import { Api } from "../../api";
+import { Row } from "react-bootstrap";
+import { PostApi } from "../../api";
 import { addPost } from "../../redux";
 import { LoginContext } from "../../App";
 
@@ -10,8 +10,6 @@ import "./style.css";
 
 function Post(props) {
   const { data, user } = props;
-  const inputTitleRef = createRef();
-  const inputCommentRef = createRef();
   const loginContext = useContext(LoginContext);
   const dispatch = useDispatch();
 
@@ -20,7 +18,7 @@ function Post(props) {
       ...inputData,
       userId: user.id,
     };
-    Api.createPost(data)
+    PostApi.createPost(data)
       .then((response) => {
         if (response.status === 201) {
           // dispatch(addPost(response.data));

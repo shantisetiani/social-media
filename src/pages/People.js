@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Alert } from "react-bootstrap";
-import { Api } from "../api";
+import { UserApi } from "../api";
 import useApiCall from "../customHooks/useApiCall";
 import { storeUsers } from "../redux";
 
@@ -11,7 +11,7 @@ function People() {
   const [alertProps, setAlertProps] = useState({});
 
   const userResult = useApiCall({
-    ApiCall: Api.getAllUser,
+    ApiCall: UserApi.getAllUser,
     store: storeUsers,
     storageName: "users",
   });

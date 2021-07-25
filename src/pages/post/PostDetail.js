@@ -2,7 +2,7 @@ import React, { useState, useEffect, createRef, useContext } from "react";
 import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { Container, Row, Col, Button, Alert, Modal } from "react-bootstrap";
-import { Api } from "../../api";
+import { UserApi, PostApi } from "../../api";
 import useApiCall from "../../customHooks/useApiCall";
 import { storeUsers, addPost } from "../../redux";
 import { LoginContext } from "../../App";
@@ -35,15 +35,15 @@ function PostDetail() {
   const postId = splittedUrl[splittedUrl.length - 1];
 
   const postResult = useApiCall({
-    ApiCall: Api.getPostDetail,
+    ApiCall: PostApi.getPostDetail,
     params: postId,
   });
   const commentResult = useApiCall({
-    ApiCall: Api.getPostComments,
+    ApiCall: PostApi.getPostComments,
     params: postId,
   });
   const userResult = useApiCall({
-    ApiCall: Api.getAllUser,
+    ApiCall: UserApi.getAllUser,
     store: storeUsers,
     storageName: "users",
   });
@@ -110,7 +110,7 @@ function PostDetail() {
       postId: postId,
     };
 
-    Api.createComment(data)
+    PostApi.createComment(data)
       .then((response) => {
         if (response.status === 201) {
           inputCommentRef.current.value = "";
@@ -141,7 +141,7 @@ function PostDetail() {
       body: postBody,
       userId: getUser(postDetail.userId).id,
     };
-    Api.updatePost(postId, data)
+    PostApi.updatePost(postId, data)
       .then((response) => {
         if (response.status === 200) {
           setAlertProps({
@@ -163,7 +163,7 @@ function PostDetail() {
 
   const deletePost = () => {
     closeModal();
-    Api.deletePost(postId)
+    PostApi.deletePost(postId)
       .then((response) => {
         if (response.status === 200) {
           setAlertProps({
@@ -200,7 +200,7 @@ function PostDetail() {
 
   const deleteComment = (commentId) => {
     closeModal();
-    Api.deleteComment(commentId)
+    PostApi.deleteComment(commentId)
       .then((response) => {
         if (response.status === 200) {
           setAlertProps({
@@ -233,7 +233,7 @@ function PostDetail() {
       email: editedComment.email,
       body: editedComment.body,
     };
-    Api.updateComment(commentId, data)
+    PostApi.updateComment(commentId, data)
       .then((response) => {
         if (response.status === 200) {
           setAlertProps({

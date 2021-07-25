@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Container } from "react-bootstrap";
-import { Api } from "../api";
+import { UserApi, PostApi } from "../api";
 import useApiCall from "../customHooks/useApiCall";
 import { storeUsers, storePosts } from "../redux";
 import { LoginContext } from "../App";
@@ -12,12 +12,12 @@ function AllPost() {
   const loginContext = useContext(LoginContext);
 
   const postResult = useApiCall({
-    ApiCall: Api.getAllPost,
+    ApiCall: PostApi.getAllPost,
     store: storePosts,
     storageName: "posts",
   });
   const userResult = useApiCall({
-    ApiCall: Api.getAllUser,
+    ApiCall: UserApi.getAllUser,
     store: storeUsers,
     storageName: "users",
   });
@@ -40,7 +40,7 @@ function AllPost() {
       ...inputData,
       userId: loginContext.loginInfo.id,
     };
-    Api.createPost(data)
+    PostApi.createPost(data)
       .then((response) => {
         if (response.status === 201) {
           // dispatch(addPost(response.data));

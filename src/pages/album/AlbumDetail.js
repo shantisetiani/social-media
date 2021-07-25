@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Modal } from "react-bootstrap";
-import { Api } from "../../api";
+import { AlbumApi } from "../../api";
 import useApiCall from "../../customHooks/useApiCall";
 
 import { Loader, Break } from "../../component";
@@ -16,11 +16,11 @@ function AlbumDetail() {
   const albumId = splittedUrl[splittedUrl.length - 1];
 
   const albumResult = useApiCall({
-    ApiCall: Api.getAlbumDetail,
+    ApiCall: AlbumApi.getAlbumDetail,
     params: albumId,
   });
   const photosResult = useApiCall({
-    ApiCall: Api.getPhotosByAlbum,
+    ApiCall: AlbumApi.getPhotosByAlbum,
     params: albumId,
   });
 

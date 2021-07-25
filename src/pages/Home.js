@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Alert } from "react-bootstrap";
-import { Api } from "../api";
+import { UserApi, PostApi } from "../api";
 import useApiCall from "../customHooks/useApiCall";
 import { storeUsers, storePosts } from "../redux";
 
@@ -12,12 +12,12 @@ function Home() {
   const [alertProps, setAlertProps] = useState({});
 
   const userResult = useApiCall({
-    ApiCall: Api.getAllUser,
+    ApiCall: UserApi.getAllUser,
     store: storeUsers,
     storageName: "users",
   });
   const postResult = useApiCall({
-    ApiCall: Api.getAllPost,
+    ApiCall: PostApi.getAllPost,
     store: storePosts,
     storageName: "posts",
   });
