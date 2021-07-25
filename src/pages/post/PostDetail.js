@@ -32,14 +32,22 @@ function PostDetail() {
   });
 
   const submitForm = () => {
-    console.log(inputTitleRef.current.value);
-
     const data = {
-      title: inputTitleRef.current.value,
+      // name: "",
+      // email: "",
       body: inputCommentRef.current.value,
-      userId: 1,
+      postId: postId,
     };
-    Api.createPost(data);
+    Api.createComment(data)
+      .then((response) => {
+        if (response.status === 201) {
+          inputCommentRef.current.value = "";
+          alert("Success");
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   /* Put Data into local state - START */
@@ -63,7 +71,7 @@ function PostDetail() {
   /* Put Data into local state - END */
 
   const getUser = (userId) => {
-    return users.find((item) => (item.id = userId));
+    return users.length > 0 && users.find((item) => (item.id = userId));
   };
 
   return (
@@ -73,9 +81,12 @@ function PostDetail() {
       ) : (
         <>
           <h2>{postDetail.title}</h2>
-          <div>By {getUser(postDetail.userId).name}</div>
           <Break height={20} />
-          <div>{postDetail.body}</div>
+          <Text size={16}>{postDetail.body}</Text>
+          <Break height={20} />
+          <Text size={12} color="#333">
+            By <b>{getUser(postDetail.userId).name}</b>
+          </Text>
           <Break height={40} />
           <h5>Comments</h5>
           {comments?.map((item, idx) => (
@@ -91,19 +102,19 @@ function PostDetail() {
             </div>
           ))}
           <div className="comment-bubble">
-            <form onSubmit={submitForm}>
-              <input
-                name="title"
-                placeholder="Title"
-                ref={inputTitleRef}
-              ></input>
-              <input
+            <form>
+              <textarea
                 name="body"
                 placeholder="Write a comment..."
                 ref={inputCommentRef}
-              ></input>
+              ></textarea>
               <div style={{ textAlign: "right" }}>
-                <Button variant="primary" type="submit" size="sm">
+                <Button
+                  variant="primary"
+                  type="button"
+                  size="sm"
+                  onClick={submitForm}
+                >
                   Submit
                 </Button>
               </div>

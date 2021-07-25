@@ -1,3 +1,24 @@
+/* Post */
+.card-post {
+  cursor: pointer;
+}
+.card-post:hover {
+  background-color: rgb(240, 236, 236);
+}
+.card-post:active {
+  border: 1px solid rgb(49, 49, 49);
+  background-color: rgb(214, 210, 210);
+}
+
+.card-post-input input {
+  width: 100%;
+}
+.card-post-input textarea {
+  width: 100%;
+  resize: none;
+}
+
+/* Post Detail */
 .comment-bubble {
   border: 1px solid gray;
   border-radius: 20px;
@@ -6,13 +27,19 @@
   padding: 15px 20px;
 }
 
-.comment-bubble input {
-  border: 1px solid black;
+.comment-bubble input,
+.comment-bubble textarea {
+  border: none;
+  background-color: transparent;
   font-size: 14px;
   color: black;
   width: 100%;
 }
+.comment-bubble textarea {
+  resize: none;
+}
 
-.comment-bubble input:focus {
+.comment-bubble input:focus,
+.comment-bubble textarea:focus {
   outline: none;
 }

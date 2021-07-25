@@ -104,7 +104,11 @@ function Profile() {
           </Nav.Item>
         </Nav>
         <Break height={10} />
-        {currentTab === "1" ? <Post data={posts} /> : <Album data={albums} />}
+        {currentTab === "1" ? (
+          <Post data={posts} user={userDetail} />
+        ) : (
+          <Album data={albums} />
+        )}
       </div>
     </Container>
   );

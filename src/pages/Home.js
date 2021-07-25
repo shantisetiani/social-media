@@ -6,7 +6,7 @@ import useApiCall from "../customHooks/useApiCall";
 import { storeUsers, storePosts } from "../redux";
 import { MENU } from "../config";
 
-import { Loader } from "../component";
+import { Text, Loader, Break } from "../component";
 import BlankProfilePicture from "../assets/images/blank-profile-picture.png";
 
 function Home() {
@@ -110,12 +110,17 @@ function Home() {
           </Row>
           <Row>
             {posts?.map((item, idx) => (
-              <Col xs="6" lg="3" key={idx}>
+              <Col xs="12" lg="6" key={idx}>
                 <Card>
                   <Card.Body>
                     <Card.Title>{item.title}</Card.Title>
-                    <Card.Text>{item.body}</Card.Text>
-                    <Card.Subtitle>{getUser(item.userId)?.name}</Card.Subtitle>
+                    <Card.Text>
+                      <Text size={14}>{item.body}</Text>
+                      <Break height={10} />
+                      <Text size={12} color="#333">
+                        By <b>{getUser(item.userId)?.name}</b>
+                      </Text>
+                    </Card.Text>
                   </Card.Body>
                 </Card>
               </Col>
