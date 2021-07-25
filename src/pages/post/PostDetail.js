@@ -1,8 +1,9 @@
-import React, { useState, useEffect, createRef } from "react";
+import React, { useState, useEffect, createRef, useContext } from "react";
 import { Container, Button } from "react-bootstrap";
 import { Api } from "../../api";
 import useApiCall from "../../customHooks/useApiCall";
 import { storeUsers } from "../../redux";
+import { LoginContext } from "../../App";
 
 import { Text, Loader, Break } from "../../component";
 import "./style.css";
@@ -11,8 +12,8 @@ function PostDetail() {
   const [postDetail, setPostDetail] = useState({});
   const [comments, setComments] = useState([]);
   const [users, setUsers] = useState({});
-  const inputTitleRef = createRef();
   const inputCommentRef = createRef();
+  const loginContext = useContext(LoginContext);
 
   const splittedUrl = window.location.pathname.split("/");
   const postId = splittedUrl[splittedUrl.length - 1];
@@ -33,8 +34,8 @@ function PostDetail() {
 
   const submitForm = () => {
     const data = {
-      // name: "",
-      // email: "",
+      name: loginContext.loginInfo.name,
+      email: loginContext.loginInfo.email,
       body: inputCommentRef.current.value,
       postId: postId,
     };
@@ -101,25 +102,27 @@ function PostDetail() {
               <Text size={14}>{item.body}</Text>
             </div>
           ))}
-          <div className="comment-bubble">
-            <form>
-              <textarea
-                name="body"
-                placeholder="Write a comment..."
-                ref={inputCommentRef}
-              ></textarea>
-              <div style={{ textAlign: "right" }}>
-                <Button
-                  variant="primary"
-                  type="button"
-                  size="sm"
-                  onClick={submitForm}
-                >
-                  Submit
-                </Button>
-              </div>
-            </form>
-          </div>
+          {loginContext.isLogin && (
+            <div className="comment-bubble">
+              <form>
+                <textarea
+                  name="body"
+                  placeholder="Write a comment..."
+                  ref={inputCommentRef}
+                ></textarea>
+                <div style={{ textAlign: "right" }}>
+                  <Button
+                    variant="primary"
+                    type="button"
+                    size="sm"
+                    onClick={submitForm}
+                  >
+                    Submit
+                  </Button>
+                </div>
+              </form>
+            </div>
+          )}
         </>
       )}
     </Container>
