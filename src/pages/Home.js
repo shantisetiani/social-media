@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Container, Row, Col, Alert } from "react-bootstrap";
 import { Api } from "../api";
 import useApiCall from "../customHooks/useApiCall";
 import { storeUsers, storePosts } from "../redux";
-import { MENU } from "../config";
 
-import { Text, Loader, Break, CardPost } from "../component";
-import BlankProfilePicture from "../assets/images/blank-profile-picture.png";
+import { Loader, CardUser, CardPost } from "../component";
 
 function Home() {
   const [users, setUsers] = useState([]);
@@ -83,27 +80,7 @@ function Home() {
               <h3>Suggestions</h3>
             </Col>
           </Row>
-          <Row>
-            {users?.map((item, idx) => (
-              <Col xs="6" lg="3" key={idx}>
-                <Card>
-                  <Card.Img variant="top" src={BlankProfilePicture} />
-                  <Card.Body>
-                    <Card.Title>{item.name}</Card.Title>
-                    <Card.Text>
-                      <div>Phone: {item.phone}</div>
-                      <div>Email: {item.email}</div>
-                    </Card.Text>
-                  </Card.Body>
-                  <Card.Footer>
-                    <Link to={`people/${item.id}/profile`}>
-                      {"See Profile >>"}
-                    </Link>
-                  </Card.Footer>
-                </Card>
-              </Col>
-            ))}
-          </Row>
+          <CardUser data={users} />
         </>
       )}
     </Container>

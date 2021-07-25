@@ -1,6 +1,12 @@
+/* Card User */
+.card-user {
+  height: 30rem;
+}
+
 /* Card Post */
 .card-post {
   cursor: pointer;
+  height: 12rem;
 }
 .card-post:hover {
   background-color: rgb(240, 236, 236);
