@@ -20,6 +20,7 @@ function Profile() {
   const splittedUrl = window.location.pathname.split("/");
   const userId = Number(splittedUrl[splittedUrl.length - 2]);
 
+  /* Get data using custom hooks - START */
   const userResult = useApiCall({
     ApiCall: UserApi.getUser,
     params: { id: userId },
@@ -32,6 +33,7 @@ function Profile() {
     ApiCall: AlbumApi.getAlbum,
     params: { userId: userId },
   });
+  /* Get data using custom hooks - END */
 
   /* Put Data into local state - START */
   useEffect(() => {

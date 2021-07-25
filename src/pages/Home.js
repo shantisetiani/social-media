@@ -11,6 +11,7 @@ function Home() {
   const [posts, setPosts] = useState([]);
   const [alertProps, setAlertProps] = useState({});
 
+  /* Get data using custom hooks - START */
   const userResult = useApiCall({
     ApiCall: UserApi.getAllUser,
     store: storeUsers,
@@ -21,7 +22,9 @@ function Home() {
     store: storePosts,
     storageName: "posts",
   });
+  /* Get data using custom hooks - END */
 
+  /* Put Data into local state - START */
   useEffect(() => {
     if (userResult.response !== null) {
       let selectedUsers = [];
@@ -41,6 +44,7 @@ function Home() {
       setPosts(selectedPosts);
     }
   }, [postResult.response]);
+  /* Put Data into local state - END */
 
   //Handle error call Api
   useEffect(() => {

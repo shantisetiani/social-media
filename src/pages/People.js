@@ -10,17 +10,21 @@ function People() {
   const [users, setUsers] = useState([]);
   const [alertProps, setAlertProps] = useState({});
 
+  /* Get data using custom hooks - START */
   const userResult = useApiCall({
     ApiCall: UserApi.getAllUser,
     store: storeUsers,
     storageName: "users",
   });
+  /* Get data using custom hooks - END */
 
+  /* Put Data into local state - START */
   useEffect(() => {
     if (userResult.response !== null) {
       setUsers(userResult.response);
     }
   }, [userResult.response]);
+  /* Put Data into local state - END */
 
   //Handle error call Api
   useEffect(() => {

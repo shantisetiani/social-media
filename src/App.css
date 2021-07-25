@@ -21,3 +21,10 @@ h3 {
 .card {
   margin-bottom: 20px;
 }
+
+.btn-light {
+  border-color: darkgray !important;
+}
+.btn-light:hover {
+  border-color: #333 !important;
+}

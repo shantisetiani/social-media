@@ -12,9 +12,11 @@ function AlbumDetail() {
   const [showModal, setShowModal] = useState(false);
   const [modalInfo, setModalInfo] = useState({});
 
+  // Get Id from url
   const splittedUrl = window.location.pathname.split("/");
   const albumId = splittedUrl[splittedUrl.length - 1];
 
+  /* Get data using custom hooks - START */
   const albumResult = useApiCall({
     ApiCall: AlbumApi.getAlbumDetail,
     params: albumId,
@@ -23,6 +25,7 @@ function AlbumDetail() {
     ApiCall: AlbumApi.getPhotosByAlbum,
     params: albumId,
   });
+  /* Get data using custom hooks - END */
 
   /* Put Data into local state - START */
   useEffect(() => {

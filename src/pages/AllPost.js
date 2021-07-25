@@ -11,6 +11,7 @@ function AllPost() {
   const [users, setUsers] = useState([]);
   const loginContext = useContext(LoginContext);
 
+  /* Get data using custom hooks - START */
   const postResult = useApiCall({
     ApiCall: PostApi.getAllPost,
     store: storePosts,
@@ -21,6 +22,7 @@ function AllPost() {
     store: storeUsers,
     storageName: "users",
   });
+  /* Get data using custom hooks - END */
 
   /* Put Data into local state - START */
   useEffect(() => {

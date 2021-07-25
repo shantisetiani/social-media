@@ -31,9 +31,11 @@ function PostDetail() {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // Get Id from url
   const splittedUrl = window.location.pathname.split("/");
   const postId = splittedUrl[splittedUrl.length - 1];
 
+  /* Get data using custom hooks - START */
   const postResult = useApiCall({
     ApiCall: PostApi.getPostDetail,
     params: postId,
@@ -47,6 +49,7 @@ function PostDetail() {
     store: storeUsers,
     storageName: "users",
   });
+  /* Get data using custom hooks - END */
 
   /* Put Data into local state - START */
   useEffect(() => {
@@ -307,6 +310,14 @@ function PostDetail() {
           </Text>
           {isEditMode && (
             <Col style={{ textAlign: "right" }}>
+              <Button
+                variant="light"
+                size="sm"
+                onClick={() => setIsEditMode(false)}
+                style={{ marginRight: "10px" }}
+              >
+                Cancel
+              </Button>
               <Button variant="primary" size="sm" onClick={submitEdit}>
                 Submit Changes
               </Button>
@@ -357,8 +368,16 @@ function PostDetail() {
                     variant="primary"
                     size="sm"
                     onClick={() => submitComment(item.id)}
+                    style={{ marginRight: "10px" }}
                   >
                     Submit Changes
+                  </Button>
+                  <Button
+                    variant="light"
+                    size="sm"
+                    onClick={() => setEditedCommentId(-1)}
+                  >
+                    Cancel
                   </Button>
                 </div>
               ) : (
