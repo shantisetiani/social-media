@@ -235,7 +235,6 @@ function PostDetail() {
     };
     Api.updateComment(commentId, data)
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           setAlertProps({
             props: { variant: "success" },
@@ -275,7 +274,7 @@ function PostDetail() {
               <h2>{postDetail.title}</h2>
             )}
           </Col>
-          {!isEditMode && (
+          {loginContext.isLogin && !isEditMode && (
             <Col xs="3" style={{ textAlign: "right" }}>
               <Button
                 variant="warning"
@@ -373,21 +372,25 @@ function PostDetail() {
                   <Break height={10} />
                   <Text size={14}>{item.body}</Text>
                   <Break height={10} />
-                  <Button
-                    variant="warning"
-                    size="sm"
-                    onClick={() => editComment(item.id)}
-                    style={{ marginRight: "10px" }}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    onClick={() => openModalDeleteComment(item.id)}
-                  >
-                    Delete
-                  </Button>
+                  {loginContext.isLogin && (
+                    <>
+                      <Button
+                        variant="warning"
+                        size="sm"
+                        onClick={() => editComment(item.id)}
+                        style={{ marginRight: "10px" }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="danger"
+                        size="sm"
+                        onClick={() => openModalDeleteComment(item.id)}
+                      >
+                        Delete
+                      </Button>
+                    </>
+                  )}
                 </div>
               )}
             </div>
