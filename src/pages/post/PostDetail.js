@@ -15,10 +15,16 @@ function PostDetail() {
   const [comments, setComments] = useState([]);
   const [users, setUsers] = useState({});
   const [alertProps, setAlertProps] = useState({});
+
   const [isEditMode, setIsEditMode] = useState(false);
   const [postTitle, setPostTitle] = useState("");
   const [postBody, setPostBody] = useState("");
+
   const [showModal, setShowModal] = useState(false);
+  const [modalInfo, setModalInfo] = useState({});
+
+  const [editedCommentId, setEditedCommentId] = useState(-1);
+  const [editedComment, setEditedComment] = useState({});
 
   const inputCommentRef = createRef();
   const loginContext = useContext(LoginContext);
@@ -174,6 +180,80 @@ function PostDetail() {
       });
   };
 
+  const openModalDeletePost = () => {
+    setShowModal(true);
+    setModalInfo({
+      type: "post",
+      onSubmit: deletePost,
+    });
+  };
+
+  const editComment = (commentId) => {
+    const comment = comments.find((item) => item.id == commentId);
+    setEditedCommentId(commentId);
+    setEditedComment({
+      name: comment.name,
+      email: comment.email,
+      body: comment.body,
+    });
+  };
+
+  const deleteComment = (commentId) => {
+    closeModal();
+    Api.deleteComment(commentId)
+      .then((response) => {
+        if (response.status === 200) {
+          setAlertProps({
+            props: { show: true, variant: "success" },
+            content: "Success delete comment",
+          });
+          setTimeout(() => {
+            dismissAlert();
+          }, 3000);
+        }
+      })
+      .catch((err) => {
+        showError(err);
+      });
+  };
+
+  const openModalDeleteComment = (commentId) => {
+    setShowModal(true);
+    setModalInfo({
+      type: "comment",
+      onSubmit: () => deleteComment(commentId),
+    });
+  };
+
+  const submitComment = (commentId) => {
+    const data = {
+      postId: postId,
+      id: commentId,
+      name: editedComment.name,
+      email: editedComment.email,
+      body: editedComment.body,
+    };
+    Api.updateComment(commentId, data)
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          setAlertProps({
+            props: { variant: "success" },
+            content: "Success update comment",
+          });
+          setTimeout(() => {
+            dismissAlert();
+          }, 3000);
+        }
+      })
+      .catch((err) => {
+        showError(err);
+      })
+      .finally(() => {
+        setEditedCommentId(-1);
+      });
+  };
+
   const closeModal = () => setShowModal(false);
 
   return (
@@ -182,9 +262,7 @@ function PostDetail() {
         <Loader />
       ) : (
         <Row className="post-detail">
-          <Alert show={true} {...alertProps.props}>
-            {alertProps.content}
-          </Alert>
+          <Alert {...alertProps.props}>{alertProps.content}</Alert>
           <Col>
             {isEditMode ? (
               <input
@@ -199,14 +277,15 @@ function PostDetail() {
           </Col>
           {!isEditMode && (
             <Col xs="3" style={{ textAlign: "right" }}>
-              <Button variant="warning" size="sm" onClick={editPost}>
+              <Button
+                variant="warning"
+                size="sm"
+                onClick={editPost}
+                style={{ marginRight: "5px" }}
+              >
                 Edit
               </Button>
-              <Button
-                variant="danger"
-                size="sm"
-                onClick={() => setShowModal(true)}
-              >
+              <Button variant="danger" size="sm" onClick={openModalDeletePost}>
                 Delete
               </Button>
             </Col>
@@ -237,15 +316,80 @@ function PostDetail() {
           <Break height={40} />
           <h5>Comments</h5>
           {comments?.map((item, idx) => (
-            <div className="comment-bubble" key={idx}>
-              <Text size={12} weight="bold">
-                {item.name}
-              </Text>
-              <Text size={12} color="gray">
-                {item.email}
-              </Text>
-              <Break height={10} />
-              <Text size={14}>{item.body}</Text>
+            <div key={idx}>
+              {editedCommentId == item.id ? (
+                <div className="comment-bubble-input" key={idx}>
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    value={editedComment.name}
+                    onChange={(e) =>
+                      setEditedComment({
+                        ...editedComment,
+                        name: e.target.value,
+                      })
+                    }
+                  />
+                  <Break height={10} />
+                  <input
+                    type="text"
+                    placeholder="Email"
+                    value={editedComment.email}
+                    onChange={(e) =>
+                      setEditedComment({
+                        ...editedComment,
+                        email: e.target.value,
+                      })
+                    }
+                  />
+                  <Break height={10} />
+                  <textarea
+                    placeholder="Comment..."
+                    value={editedComment.body}
+                    onChange={(e) =>
+                      setEditedComment({
+                        ...editedComment,
+                        body: e.target.value,
+                      })
+                    }
+                  />
+                  <Break height={10} />
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={() => submitComment(item.id)}
+                  >
+                    Submit Changes
+                  </Button>
+                </div>
+              ) : (
+                <div className="comment-bubble" key={idx}>
+                  <Text size={12} weight="bold">
+                    {item.name}
+                  </Text>
+                  <Text size={12} color="gray">
+                    {item.email}
+                  </Text>
+                  <Break height={10} />
+                  <Text size={14}>{item.body}</Text>
+                  <Break height={10} />
+                  <Button
+                    variant="warning"
+                    size="sm"
+                    onClick={() => editComment(item.id)}
+                    style={{ marginRight: "10px" }}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => openModalDeleteComment(item.id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              )}
             </div>
           ))}
           {loginContext.isLogin && (
@@ -273,12 +417,14 @@ function PostDetail() {
             <Modal.Header closeButton>
               <Modal.Title>Delete Confirmation</Modal.Title>
             </Modal.Header>
-            <Modal.Body>Do you want to delete this post?</Modal.Body>
+            <Modal.Body>
+              Do you want to delete this {modalInfo.type}?
+            </Modal.Body>
             <Modal.Footer>
               <Button variant="light" onClick={closeModal}>
                 No
               </Button>
-              <Button variant="danger" onClick={deletePost}>
+              <Button variant="danger" onClick={modalInfo.onSubmit}>
                 Yes
               </Button>
             </Modal.Footer>

@@ -10,11 +10,12 @@ h3 {
 
 /* Modify bootstrap */
 .alert {
-  position: absolute !important;
-  width: 100%;
+  position: fixed !important;
+  width: 90% !important;
+  padding: 0.5rem 1rem !important;
   z-index: 9;
-  top: 3px;
-  left: 0;
+  top: 2%;
+  left: 5%;
 }
 
 .card {
