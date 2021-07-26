@@ -85,13 +85,14 @@ function AlbumDetail() {
             <h3>{albumDetail.title}</h3>
           </Col>
           <Break height={10} />
-          {photos?.map((item, idx) => (
-            <Col xs="6" sm="4" lg="3" key={idx}>
-              <Card className="card-photos" onClick={() => openModal(item)}>
-                <Card.Img variant="top" src={item.thumbnailUrl} />
-              </Card>
-            </Col>
-          ))}
+          {photos.lenght > 0 &&
+            photos.map((item, idx) => (
+              <Col xs="6" sm="4" lg="3" key={idx}>
+                <Card className="card-photos" onClick={() => openModal(item)}>
+                  <Card.Img variant="top" src={item.thumbnailUrl} />
+                </Card>
+              </Col>
+            ))}
           <Modal show={showModal} onHide={closeModal}>
             <Modal.Header closeButton>
               <Modal.Title>{modalInfo.title}</Modal.Title>

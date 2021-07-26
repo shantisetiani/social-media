@@ -14,22 +14,23 @@ function CardPost(props) {
 
   return (
     <Row>
-      {data?.map((item, idx) => (
-        <Col xs="12" lg="6" key={idx}>
-          <Card className="card-post">
-            <Card.Body onClick={() => history.push(`/post/${item.id}`)}>
-              <Card.Title>{item.title}</Card.Title>
-              <Text size={14}>{item.body}</Text>
-              <Break height={10} />
-              {users && (
-                <Text size={12} color="#333">
-                  By <b>{getUser(item.userId)?.name}</b>
-                </Text>
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
-      ))}
+      {data.length > 0 &&
+        data.map((item, idx) => (
+          <Col xs="12" lg="6" key={idx}>
+            <Card className="card-post">
+              <Card.Body onClick={() => history.push(`/post/${item.id}`)}>
+                <Card.Title>{item.title}</Card.Title>
+                <Text size={14}>{item.body}</Text>
+                <Break height={10} />
+                {users && (
+                  <Text size={12} color="#333">
+                    By <b>{getUser(item.userId)?.name}</b>
+                  </Text>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
     </Row>
   );
 }

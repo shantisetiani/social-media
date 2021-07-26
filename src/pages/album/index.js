@@ -13,7 +13,7 @@ function Album(props) {
       {data.length === 0 ? (
         <div style={{ textAlign: "center" }}>No Album</div>
       ) : (
-        data?.map((item, idx) => (
+        data.map((item, idx) => (
           <Col xs="6" sm="4" lg="3" key={idx}>
             <Card
               className="card-albums"

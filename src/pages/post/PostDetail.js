@@ -325,95 +325,96 @@ function PostDetail() {
           )}
           <Break height={40} />
           <h5>Comments</h5>
-          {comments?.map((item, idx) => (
-            <div key={idx}>
-              {editedCommentId == item.id ? (
-                <div className="comment-bubble-input" key={idx}>
-                  <input
-                    type="text"
-                    placeholder="Name"
-                    value={editedComment.name}
-                    onChange={(e) =>
-                      setEditedComment({
-                        ...editedComment,
-                        name: e.target.value,
-                      })
-                    }
-                  />
-                  <Break height={10} />
-                  <input
-                    type="text"
-                    placeholder="Email"
-                    value={editedComment.email}
-                    onChange={(e) =>
-                      setEditedComment({
-                        ...editedComment,
-                        email: e.target.value,
-                      })
-                    }
-                  />
-                  <Break height={10} />
-                  <textarea
-                    placeholder="Comment..."
-                    value={editedComment.body}
-                    onChange={(e) =>
-                      setEditedComment({
-                        ...editedComment,
-                        body: e.target.value,
-                      })
-                    }
-                  />
-                  <Break height={10} />
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    onClick={() => submitComment(item.id)}
-                    style={{ marginRight: "10px" }}
-                  >
-                    Submit Changes
-                  </Button>
-                  <Button
-                    variant="light"
-                    size="sm"
-                    onClick={() => setEditedCommentId(-1)}
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              ) : (
-                <div className="comment-bubble" key={idx}>
-                  <Text size={12} weight="bold">
-                    {item.name}
-                  </Text>
-                  <Text size={12} color="gray">
-                    {item.email}
-                  </Text>
-                  <Break height={10} />
-                  <Text size={14}>{item.body}</Text>
-                  <Break height={10} />
-                  {loginContext.isLogin && (
-                    <>
-                      <Button
-                        variant="warning"
-                        size="sm"
-                        onClick={() => editComment(item.id)}
-                        style={{ marginRight: "10px" }}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        variant="danger"
-                        size="sm"
-                        onClick={() => openModalDeleteComment(item.id)}
-                      >
-                        Delete
-                      </Button>
-                    </>
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
+          {comments.length > 0 &&
+            comments.map((item, idx) => (
+              <div key={idx}>
+                {editedCommentId == item.id ? (
+                  <div className="comment-bubble-input" key={idx}>
+                    <input
+                      type="text"
+                      placeholder="Name"
+                      value={editedComment.name}
+                      onChange={(e) =>
+                        setEditedComment({
+                          ...editedComment,
+                          name: e.target.value,
+                        })
+                      }
+                    />
+                    <Break height={10} />
+                    <input
+                      type="text"
+                      placeholder="Email"
+                      value={editedComment.email}
+                      onChange={(e) =>
+                        setEditedComment({
+                          ...editedComment,
+                          email: e.target.value,
+                        })
+                      }
+                    />
+                    <Break height={10} />
+                    <textarea
+                      placeholder="Comment..."
+                      value={editedComment.body}
+                      onChange={(e) =>
+                        setEditedComment({
+                          ...editedComment,
+                          body: e.target.value,
+                        })
+                      }
+                    />
+                    <Break height={10} />
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={() => submitComment(item.id)}
+                      style={{ marginRight: "10px" }}
+                    >
+                      Submit Changes
+                    </Button>
+                    <Button
+                      variant="light"
+                      size="sm"
+                      onClick={() => setEditedCommentId(-1)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="comment-bubble" key={idx}>
+                    <Text size={12} weight="bold">
+                      {item.name}
+                    </Text>
+                    <Text size={12} color="gray">
+                      {item.email}
+                    </Text>
+                    <Break height={10} />
+                    <Text size={14}>{item.body}</Text>
+                    <Break height={10} />
+                    {loginContext.isLogin && (
+                      <>
+                        <Button
+                          variant="warning"
+                          size="sm"
+                          onClick={() => editComment(item.id)}
+                          style={{ marginRight: "10px" }}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          onClick={() => openModalDeleteComment(item.id)}
+                        >
+                          Delete
+                        </Button>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
           {loginContext.isLogin && (
             <div className="comment-bubble">
               <form>
