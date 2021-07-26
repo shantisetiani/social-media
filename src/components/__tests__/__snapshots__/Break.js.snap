@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UI Test Break component matches break snapshot 1`] = `
+<div
+  style={
+    Object {
+      "height": "12px",
+    }
+  }
+/>
+`;
