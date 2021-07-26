@@ -9,12 +9,15 @@ function CardPost(props) {
   const history = useHistory();
 
   const getUser = (userId) => {
+    if (userId === 99) {
+      return { name: "Super Admin" };
+    }
     return users.find((item) => (item.id = userId));
   };
 
   return (
     <Row>
-      {data.length > 0 &&
+      {data?.length > 0 &&
         data.map((item, idx) => (
           <Col xs="12" lg="6" key={idx}>
             <Card className="card-post">

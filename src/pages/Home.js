@@ -68,7 +68,7 @@ function Home() {
 
   return (
     <Container className="container-pages">
-      {userResult.loading ? (
+      {userResult.loading || postResult.loading ? (
         <Loader />
       ) : (
         <>

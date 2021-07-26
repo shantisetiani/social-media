@@ -1,10 +1,9 @@
 import React, { useState, useEffect, createRef, useContext } from "react";
 import { useHistory } from "react-router";
-import { useDispatch } from "react-redux";
 import { Container, Row, Col, Button, Alert, Modal } from "react-bootstrap";
 import { UserApi, PostApi } from "../../api";
 import useApiCall from "../../customHooks/useApiCall";
-import { storeUsers, addPost } from "../../redux";
+import { storeUsers } from "../../redux";
 import { LoginContext } from "../../App";
 
 import { Text, Loader, Break } from "../../components";
@@ -28,7 +27,6 @@ function PostDetail() {
 
   const inputCommentRef = createRef();
   const loginContext = useContext(LoginContext);
-  const dispatch = useDispatch();
   const history = useHistory();
 
   // Get Id from url
@@ -325,7 +323,7 @@ function PostDetail() {
           )}
           <Break height={40} />
           <h5>Comments</h5>
-          {comments.length > 0 &&
+          {comments?.length > 0 &&
             comments.map((item, idx) => (
               <div key={idx}>
                 {editedCommentId == item.id ? (

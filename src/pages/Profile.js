@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useSelector } from "react-redux";
 import { Container, Row, Col, Nav, Image, Alert } from "react-bootstrap";
 import { UserApi, PostApi, AlbumApi } from "../api";
 import useApiCall from "../customHooks/useApiCall";
@@ -17,6 +18,8 @@ function Profile() {
   const [currentTab, setCurrentTab] = useState("1");
   const [alertProps, setAlertProps] = useState({});
   const loginContext = useContext(LoginContext);
+
+  const postStorage = useSelector((state) => state.posts);
 
   const splittedUrl = window.location.pathname.split("/");
   const userId = Number(splittedUrl[splittedUrl.length - 2]);
@@ -46,7 +49,15 @@ function Profile() {
   }, [userResult.response]);
 
   useEffect(() => {
-    if (postResult.response !== null) {
+    if (userId === 99) {
+      let superAdminPosts = [];
+      postStorage.forEach((item) => {
+        if (item.userId === 99) {
+          superAdminPosts.push(item);
+        }
+      });
+      setPosts(superAdminPosts);
+    } else if (postResult.response !== null) {
       setPosts(postResult.response);
     }
   }, [postResult.response]);

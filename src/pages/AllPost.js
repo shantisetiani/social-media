@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useDispatch } from "react-redux";
 import { Container, Alert } from "react-bootstrap";
 import { UserApi, PostApi } from "../api";
 import useApiCall from "../customHooks/useApiCall";
-import { storeUsers, storePosts } from "../redux";
+import { storeUsers, storePosts, addPost } from "../redux";
 import { LoginContext } from "../App";
 import { CardPost, CardPostInput } from "../components";
 
@@ -11,6 +12,7 @@ function AllPost() {
   const [users, setUsers] = useState([]);
   const [alertProps, setAlertProps] = useState({});
   const loginContext = useContext(LoginContext);
+  const dispatch = useDispatch();
 
   /* Get data using custom hooks - START */
   const postResult = useApiCall({
@@ -38,6 +40,19 @@ function AllPost() {
   }, [userResult.response]);
   /* Put Data into local state - END */
 
+  // Handle error call Api
+  useEffect(() => {
+    if (postResult.error || userResult.error) {
+      setAlertProps({
+        props: { show: true, variant: "danger" },
+        content: "Error occured. Please try again later.",
+      });
+      setTimeout(() => {
+        dismissAlert();
+      }, 3000);
+    }
+  }, [postResult.error, userResult.error]);
+
   const submitForm = (inputData) => {
     const data = {
       ...inputData,
@@ -46,6 +61,7 @@ function AllPost() {
     PostApi.createPost(data)
       .then((response) => {
         if (response.status === 201) {
+          dispatch(addPost(data));
           setAlertProps({
             props: { show: true, variant: "success" },
             content: "Success create comment",

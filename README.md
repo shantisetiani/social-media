@@ -24,6 +24,12 @@ This is a social media project where the users can share their thought in a post
 4. <b>Login</b><br />
    User will be logined as a Super Admin. Then some privileges such as add, edit, delete all of the posts and comments will be unlocked. User can also see his/her own profile (dummy) on "My profile" menu; and of course can logout.<br />
 
+   Notes:<br />
+
+   - I'm using context for login information and save isLogin state on redux
+   - Since the API for add, edit, and delete not actually modify the data, so the data may not changed
+   - And so I saved some new added datas on redux, but only the posts for Super Admin, which is the user I created myself
+
 ## Available Scripts
 
 To install and run the project in your local computer, you need to do:<br />

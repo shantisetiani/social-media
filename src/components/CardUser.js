@@ -9,7 +9,7 @@ function CardUser(props) {
 
   return (
     <Row>
-      {data.length > 0 &&
+      {data?.length > 0 &&
         data.map((item, idx) => (
           <Col xs="6" lg="3" key={idx}>
             <Card className="card-user">

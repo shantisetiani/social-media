@@ -1,8 +1,6 @@
 import React, { useState, useContext } from "react";
-import { useDispatch } from "react-redux";
 import { Row, Alert } from "react-bootstrap";
 import { PostApi } from "../../api";
-import { addPost } from "../../redux";
 import { LoginContext } from "../../App";
 
 import { Break, CardPost, CardPostInput } from "../../components";
@@ -12,14 +10,13 @@ function Post(props) {
   const { data, user } = props;
   const [alertProps, setAlertProps] = useState({});
   const loginContext = useContext(LoginContext);
-  const dispatch = useDispatch();
 
   const submitForm = (inputData) => {
-    const data = {
+    const params = {
       ...inputData,
       userId: user.id,
     };
-    PostApi.createPost(data)
+    PostApi.createPost(params)
       .then((response) => {
         if (response.status === 201) {
           setAlertProps({
