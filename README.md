@@ -84,3 +84,5 @@ Launches the test runner in the interactive watch mode.<br />
     │   ├── setupTests.js           # Setup for testing purpose
     │   └── store.js                # Redux store, combine all reducers
     └── ...
+
+    * There are some __tests__ folder that contains files for testing purpose

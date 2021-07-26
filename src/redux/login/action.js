@@ -1,6 +1,6 @@
-export const setIsLogin = (users) => {
+export const setIsLogin = (isLogin) => {
   return {
     type: "setIsLogin",
-    data: users,
+    data: isLogin,
   };
 };
