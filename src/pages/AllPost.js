@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Alert } from "react-bootstrap";
 import { UserApi, PostApi } from "../api";
 import useApiCall from "../customHooks/useApiCall";
 import { storeUsers, storePosts } from "../redux";
@@ -9,6 +9,7 @@ import { CardPost, CardPostInput } from "../components";
 function AllPost() {
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
+  const [alertProps, setAlertProps] = useState({});
   const loginContext = useContext(LoginContext);
 
   /* Get data using custom hooks - START */
@@ -45,17 +46,36 @@ function AllPost() {
     PostApi.createPost(data)
       .then((response) => {
         if (response.status === 201) {
-          // dispatch(addPost(response.data));
-          alert("Success");
+          setAlertProps({
+            props: { show: true, variant: "success" },
+            content: "Success create comment",
+          });
+          setTimeout(() => {
+            dismissAlert();
+          }, 3000);
         }
       })
       .catch((err) => {
-        alert(err);
+        setAlertProps({
+          props: { show: true, variant: "danger" },
+          content: err,
+        });
+        setTimeout(() => {
+          dismissAlert();
+        }, 3000);
       });
+  };
+
+  const dismissAlert = () => {
+    setAlertProps({
+      props: { show: false, variant: "" },
+      content: "",
+    });
   };
 
   return (
     <Container className="container-pages">
+      <Alert {...alertProps.props}>{alertProps.content}</Alert>
       {loginContext.isLogin && <CardPostInput onSubmit={submitForm} />}
       <CardPost data={posts} users={users} />
     </Container>

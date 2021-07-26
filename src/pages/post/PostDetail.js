@@ -71,7 +71,7 @@ function PostDetail() {
   }, [userResult.response]);
   /* Put Data into local state - END */
 
-  //Handle error call Api
+  // Handle error call Api
   useEffect(() => {
     if (postResult.error || commentResult.error || userResult.error) {
       setAlertProps({

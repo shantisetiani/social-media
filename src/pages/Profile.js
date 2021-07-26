@@ -15,6 +15,7 @@ function Profile() {
   const [posts, setPosts] = useState([]);
   const [albums, setAlbums] = useState([]);
   const [currentTab, setCurrentTab] = useState("1");
+  const [alertProps, setAlertProps] = useState({});
   const loginContext = useContext(LoginContext);
 
   const splittedUrl = window.location.pathname.split("/");
@@ -57,6 +58,26 @@ function Profile() {
   }, [albumResult.response]);
   /* Put Data into local state - END */
 
+  // Handle error call Api
+  useEffect(() => {
+    if (userResult.error || postResult.error || albumResult.error) {
+      setAlertProps({
+        props: { show: true, variant: "danger" },
+        content: "Error occured. Please try again later.",
+      });
+      setTimeout(() => {
+        dismissAlert();
+      }, 3000);
+    }
+  }, [userResult.error, postResult.error]);
+
+  const dismissAlert = () => {
+    setAlertProps({
+      props: { show: false, variant: "" },
+      content: "",
+    });
+  };
+
   const handleSelectTab = (eventKey) => setCurrentTab(eventKey);
 
   return (
@@ -68,6 +89,7 @@ function Profile() {
         <Loader />
       ) : (
         <>
+          <Alert {...alertProps.props}>{alertProps.content}</Alert>
           <Row className="justify-content-center">
             <Col xs="9" sm="4" lg="3">
               <Image

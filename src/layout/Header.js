@@ -15,7 +15,7 @@ function Header() {
   };
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="primary" variant="dark" expand="md">
       <Container>
         <Navbar.Brand href="">Kumparan SocMed</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

@@ -26,7 +26,7 @@ function People() {
   }, [userResult.response]);
   /* Put Data into local state - END */
 
-  //Handle error call Api
+  // Handle error call Api
   useEffect(() => {
     if (userResult.error) {
       setAlertProps({

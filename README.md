@@ -10,16 +10,19 @@ This is a social media project where the users can share their thought in a post
 - User can see the user's profile by clicking the "see profile" link
 - There are menus on the header: Home, People, Post, Login
 
-1. Home<br />
-   This links to the Home page
-2. People
-   This links to the People page. All of the social media users will be showed here. If user click the "see profile" link, the web will open the Profile page. Profile page contains the detail information of the users, including their posts and albums.
-   User can see the detail of the post including the comments on the post by clicking the post's card including the comments. Super Admin can add, edit, and delete the post and comments.
-   On the album tab, user can see the albums and the detail of the albums by clicking its card. On Album Detail page there are all of the photos of the album; user can preview the image by clicking on it.
-3. Post
-   This links to Post page. It contains all of the posts of all of users. The same as the post's card on the other pages, user can see the detail of the post by clicking on it.
-4. Login
-   User will be logined as a Super Admin. Then some privileges such as add, edit, delete all of the posts and comments will be unlocked. User can also see his/her own profile (dummy) on "My profile" menu; and of course can logout.
+1. <b>Home</b><br />
+   This links to the Home page<br />
+   <br />
+2. <b>People</b><br />
+   This links to the People page. All of the social media users will be showed here. If user click the "see profile" link, the web will open the Profile page. Profile page contains the detail information of the users, including their posts and albums.<br />
+   User can see the detail of the post including the comments on the post by clicking the post's card including the comments. Super Admin can add, edit, and delete the post and comments.<br />
+   On the album tab, user can see the albums and the detail of the albums by clicking its card. On Album Detail page there are all of the photos of the album; user can preview the image by clicking on it.<br />
+   <br />
+3. <b>Post</b><br />
+   This links to Post page. It contains all of the posts of all of users. The same as the post's card on the other pages, user can see the detail of the post by clicking on it.<br />
+   <br />
+4. <b>Login</b><br />
+   User will be logined as a Super Admin. Then some privileges such as add, edit, delete all of the posts and comments will be unlocked. User can also see his/her own profile (dummy) on "My profile" menu; and of course can logout.<br />
 
 ## Available Scripts
 

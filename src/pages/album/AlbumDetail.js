@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Modal } from "react-bootstrap";
+import { Container, Row, Col, Card, Modal, Alert } from "react-bootstrap";
 import { AlbumApi } from "../../api";
 import useApiCall from "../../customHooks/useApiCall";
 
@@ -11,6 +11,7 @@ function AlbumDetail() {
   const [photos, setPhotos] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalInfo, setModalInfo] = useState({});
+  const [alertProps, setAlertProps] = useState({});
 
   // Get Id from url
   const splittedUrl = window.location.pathname.split("/");
@@ -41,6 +42,26 @@ function AlbumDetail() {
   }, [photosResult.response]);
   /* Put Data into local state - END */
 
+  // Handle error call Api
+  useEffect(() => {
+    if (albumResult.error || photosResult.error) {
+      setAlertProps({
+        props: { show: true, variant: "danger" },
+        content: "Error occured. Please try again later.",
+      });
+      setTimeout(() => {
+        dismissAlert();
+      }, 3000);
+    }
+  }, [albumResult.error, photosResult.error]);
+
+  const dismissAlert = () => {
+    setAlertProps({
+      props: { show: false, variant: "" },
+      content: "",
+    });
+  };
+
   const openModal = (data) => {
     setShowModal(true);
     setModalInfo({
@@ -59,6 +80,7 @@ function AlbumDetail() {
         <Loader />
       ) : (
         <Row>
+          <Alert {...alertProps.props}>{alertProps.content}</Alert>
           <Col xs="12">
             <h3>{albumDetail.title}</h3>
           </Col>

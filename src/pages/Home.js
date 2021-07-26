@@ -46,7 +46,7 @@ function Home() {
   }, [postResult.response]);
   /* Put Data into local state - END */
 
-  //Handle error call Api
+  // Handle error call Api
   useEffect(() => {
     if (userResult.error || postResult.error) {
       setAlertProps({
