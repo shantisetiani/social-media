@@ -21,7 +21,11 @@ function CardPost(props) {
         data.map((item, idx) => (
           <Col xs="12" lg="6" key={idx}>
             <Card className="card-post">
-              <Card.Body onClick={() => history.push(`/post/${item.id}`)}>
+              <Card.Body
+                onClick={() =>
+                  item.userId !== 99 && history.push(`/post/${item.id}`)
+                }
+              >
                 <Card.Title>{item.title}</Card.Title>
                 <Text size={14}>{item.body}</Text>
                 <Break height={10} />

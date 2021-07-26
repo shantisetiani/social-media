@@ -31,7 +31,7 @@ function PostDetail() {
 
   // Get Id from url
   const splittedUrl = window.location.pathname.split("/");
-  const postId = splittedUrl[splittedUrl.length - 1];
+  const postId = Number(splittedUrl[splittedUrl.length - 1]);
 
   /* Get data using custom hooks - START */
   const postResult = useApiCall({
@@ -190,7 +190,7 @@ function PostDetail() {
   };
 
   const editComment = (commentId) => {
-    const comment = comments.find((item) => item.id == commentId);
+    const comment = comments.find((item) => item.id === commentId);
     setEditedCommentId(commentId);
     setEditedComment({
       name: comment.name,
@@ -326,7 +326,7 @@ function PostDetail() {
           {comments?.length > 0 &&
             comments.map((item, idx) => (
               <div key={idx}>
-                {editedCommentId == item.id ? (
+                {editedCommentId === item.id ? (
                   <div className="comment-bubble-input" key={idx}>
                     <input
                       type="text"

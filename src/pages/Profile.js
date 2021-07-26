@@ -46,7 +46,7 @@ function Profile() {
     } else if (userResult.response !== null) {
       setUserDetail(userResult.response[0]);
     }
-  }, [userResult.response]);
+  }, [userId, loginContext.loginInfo, userResult.response]);
 
   useEffect(() => {
     if (userId === 99) {
@@ -60,6 +60,7 @@ function Profile() {
     } else if (postResult.response !== null) {
       setPosts(postResult.response);
     }
+    // eslint-disable-next-line
   }, [postResult.response]);
 
   useEffect(() => {
@@ -80,7 +81,7 @@ function Profile() {
         dismissAlert();
       }, 3000);
     }
-  }, [userResult.error, postResult.error]);
+  }, [userResult.error, postResult.error, albumResult.error]);
 
   const dismissAlert = () => {
     setAlertProps({
@@ -117,6 +118,12 @@ function Profile() {
               </Row>
               <Row>
                 <Col xs="4" lg="2">
+                  Username
+                </Col>
+                <Col>: {userDetail.username}</Col>
+              </Row>
+              <Row>
+                <Col xs="4" lg="2">
                   Phone
                 </Col>
                 <Col>: {userDetail.phone}</Col>
@@ -134,6 +141,21 @@ function Profile() {
                 <Col>
                   : {userDetail.address?.suite}, {userDetail.address?.street},{" "}
                   {userDetail.address?.city}, {userDetail.address?.zipcode}
+                </Col>
+              </Row>
+              <Row>
+                <Col xs="4" lg="2">
+                  Website
+                </Col>
+                <Col>
+                  :{" "}
+                  <a
+                    href={`https://${userDetail.website}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {userDetail.website}
+                  </a>
                 </Col>
               </Row>
             </Col>

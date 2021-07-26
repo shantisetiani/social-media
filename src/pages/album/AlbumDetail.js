@@ -15,7 +15,7 @@ function AlbumDetail() {
 
   // Get Id from url
   const splittedUrl = window.location.pathname.split("/");
-  const albumId = splittedUrl[splittedUrl.length - 1];
+  const albumId = Number(splittedUrl[splittedUrl.length - 1]);
 
   /* Get data using custom hooks - START */
   const albumResult = useApiCall({
@@ -85,7 +85,7 @@ function AlbumDetail() {
             <h3>{albumDetail.title}</h3>
           </Col>
           <Break height={10} />
-          {photos.lenght > 0 &&
+          {photos?.length > 0 &&
             photos.map((item, idx) => (
               <Col xs="6" sm="4" lg="3" key={idx}>
                 <Card className="card-photos" onClick={() => openModal(item)}>
@@ -98,7 +98,7 @@ function AlbumDetail() {
               <Modal.Title>{modalInfo.title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <img src={modalInfo.imgUrl} />
+              <img src={modalInfo.imgUrl} alt="user" />
             </Modal.Body>
           </Modal>
         </Row>

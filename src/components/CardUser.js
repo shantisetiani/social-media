@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { SITE_URL } from "../config";
 
 import BlankProfilePicture from "../assets/images/blank-profile-picture.png";
 
@@ -20,7 +21,9 @@ function CardUser(props) {
                 <div>Email: {item.email}</div>
               </Card.Body>
               <Card.Footer>
-                <Link to={`people/${item.id}/profile`}>{"See Profile >>"}</Link>
+                <Link to={`${SITE_URL}/people/${item.id}/profile`}>
+                  {"See Profile >>"}
+                </Link>
               </Card.Footer>
             </Card>
           </Col>

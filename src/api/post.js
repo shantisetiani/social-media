@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default ({ url, config }) => {
+export default function Post({ url, config }) {
   return {
     getAllPost: () => axios.get(`${url}/posts`, config()),
     getPost: (params) => axios.get(`${url}/posts/`, { ...config(), params }),
@@ -17,4 +17,4 @@ export default ({ url, config }) => {
     deleteComment: (commentId) =>
       axios.delete(`${url}/comments/${commentId}`, config()),
   };
-};
+}

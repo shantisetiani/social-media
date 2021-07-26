@@ -63,7 +63,7 @@ function App() {
         },
       },
     });
-  }, [isLogin]);
+  }, [isLogin, dispatch]);
 
   return (
     <LoginContext.Provider value={loginState}>

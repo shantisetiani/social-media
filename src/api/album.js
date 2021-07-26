@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default ({ url, config }) => {
+export default function Album({ url, config }) {
   return {
     getAlbum: (params) => axios.get(`${url}/albums`, { ...config(), params }),
     getAlbumDetail: (albumId) =>
@@ -8,4 +8,4 @@ export default ({ url, config }) => {
     getPhotosByAlbum: (albumId) =>
       axios.get(`${url}/albums/${albumId}/photos`, config()),
   };
-};
+}

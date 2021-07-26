@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useHistory } from "react-router";
 import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { MENU } from "../config";
+import { SITE_URL, MENU } from "../config";
 import { LoginContext } from "../App";
 
 function Header() {
@@ -32,7 +32,9 @@ function Header() {
                 id="basic-nav-dropdown"
               >
                 <NavDropdown.Item>
-                  <Link to={`people/${loginContext.loginInfo.id}/profile`}>
+                  <Link
+                    to={`${SITE_URL}/people/${loginContext.loginInfo.id}/profile`}
+                  >
                     My Profile
                   </Link>
                 </NavDropdown.Item>
