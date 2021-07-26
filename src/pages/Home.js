@@ -26,7 +26,7 @@ function Home() {
 
   /* Put Data into local state - START */
   useEffect(() => {
-    if (userResult.response !== null) {
+    if (userResult.response !== null && userResult.response.length > 0) {
       let selectedUsers = [];
       for (let i = 0; i < 4; i++) {
         selectedUsers.push(userResult.response[i]);
@@ -36,7 +36,7 @@ function Home() {
   }, [userResult.response]);
 
   useEffect(() => {
-    if (postResult.response !== null) {
+    if (postResult.response !== null && postResult.response.length > 0) {
       let selectedPosts = [];
       for (let i = 0; i < 4; i++) {
         selectedPosts.push(postResult.response[i]);
