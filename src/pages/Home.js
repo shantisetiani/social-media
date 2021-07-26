@@ -4,7 +4,7 @@ import { UserApi, PostApi } from "../api";
 import useApiCall from "../customHooks/useApiCall";
 import { storeUsers, storePosts } from "../redux";
 
-import { Loader, CardUser, CardPost } from "../component";
+import { Loader, CardUser, CardPost } from "../components";
 
 function Home() {
   const [users, setUsers] = useState([]);

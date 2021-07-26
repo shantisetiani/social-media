@@ -4,7 +4,7 @@ import { UserApi, PostApi, AlbumApi } from "../api";
 import useApiCall from "../customHooks/useApiCall";
 import { LoginContext } from "../App";
 
-import { Loader, Break } from "../component";
+import { Loader, Break } from "../components";
 import BlankProfilePicture from "../assets/images/blank-profile-picture.png";
 
 import Post from "./post";

@@ -4,7 +4,7 @@ import { UserApi, PostApi } from "../api";
 import useApiCall from "../customHooks/useApiCall";
 import { storeUsers, storePosts } from "../redux";
 import { LoginContext } from "../App";
-import { CardPost, CardPostInput } from "../component";
+import { CardPost, CardPostInput } from "../components";
 
 function AllPost() {
   const [posts, setPosts] = useState([]);

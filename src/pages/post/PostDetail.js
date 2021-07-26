@@ -7,7 +7,7 @@ import useApiCall from "../../customHooks/useApiCall";
 import { storeUsers, addPost } from "../../redux";
 import { LoginContext } from "../../App";
 
-import { Text, Loader, Break } from "../../component";
+import { Text, Loader, Break } from "../../components";
 import "./style.css";
 
 function PostDetail() {

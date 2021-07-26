@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Modal } from "react-bootstrap";
 import { AlbumApi } from "../../api";
 import useApiCall from "../../customHooks/useApiCall";
 
-import { Loader, Break } from "../../component";
+import { Loader, Break } from "../../components";
 import "./style.css";
 
 function AlbumDetail() {

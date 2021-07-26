@@ -5,7 +5,7 @@ import { PostApi } from "../../api";
 import { addPost } from "../../redux";
 import { LoginContext } from "../../App";
 
-import { Break, CardPost, CardPostInput } from "../../component";
+import { Break, CardPost, CardPostInput } from "../../components";
 import "./style.css";
 
 function Post(props) {
